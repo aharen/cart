@@ -27,6 +27,13 @@ class Cart
         return unserialize($_SESSION[$this->cart_name]);
     }
 
+    public function count()
+    {
+        $cart = self::get();
+
+        return ($cart === false) ? 0 : count($cart);
+    }
+
     public function add($item, $quantity)
     {
         $cart  = self::get();

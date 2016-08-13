@@ -28,9 +28,15 @@ If so some reason it doesn't create the config file you have to create a file na
 
 ## Usage
 
+### Get items currently in cart
+
 Get the current contents of the cart. Will return `false` if the cart is empty
 
 	Cart::get();
+
+### Count items currently in cart
+
+	Cart::count();
 
 ### Add item to cart
 
