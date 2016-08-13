@@ -5,24 +5,29 @@ namespace aharen\Cart;
 class Cart
 {
 
-    const CARTNAME = 'mycartmenu';
+    protected $cart_name;
 
-    protected static $cart = [];
+    protected $cart = [];
 
-    public static function get()
+    public function __construct()
+    {
+        $this->cart_name = config('cart.name');
+    }
+
+    public function get()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        if (!isset($_SESSION[self::CARTNAME])) {
+        if (!isset($_SESSION[$this->cart_name])) {
             return false;
         }
 
-        return unserialize($_SESSION[self::CARTNAME]);
+        return unserialize($_SESSION[$this->cart_name]);
     }
 
-    public static function add($item, $quantity)
+    public function add($item, $quantity)
     {
         $cart  = self::get();
         $exist = false;
@@ -44,11 +49,11 @@ class Cart
             $cart[] = $entry;
         }
 
-        $_SESSION[self::CARTNAME] = serialize($cart);
+        $_SESSION[$this->cart_name] = serialize($cart);
         return true;
     }
 
-    public static function remove($item)
+    public function remove($item)
     {
         $cart = self::get();
         if ($cart !== false) {
@@ -59,15 +64,15 @@ class Cart
             }
         }
 
-        $_SESSION[self::CARTNAME] = serialize($cart);
+        $_SESSION[$this->cart_name] = serialize($cart);
         return true;
     }
 
-    public static function reset()
+    public function reset()
     {
         $cart = self::get();
         if ($cart !== false) {
-            unset($_SESSION[self::CARTNAME]);
+            unset($_SESSION[$this->cart_name]);
         }
         return true;
 
